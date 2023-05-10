@@ -2,10 +2,14 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
+import WinstonLogger from './utils/logger';
 
 dotenv.config();
 
 const app = express();
+
+// 로깅용 initialize
+const logger = WinstonLogger.getInstance();
 
 app.set('port', 4000);
 app.use(express.json());
@@ -19,9 +23,13 @@ app.use(cookieParser());
         pass: process.env.DATABASE_PASSWORD,
         dbName: process.env.DATABASE_NAME,
     })
-    console.log("mongoDB connected!")
+    logger.info(`DB Connected`);
 })();
 
+app.use((req, res, next) => {
+    logger.http(`[${req.method}] ${req.url}`);
+    next();
+});
 
 app.get('/', (req, res, next) => {
     res.json('Server working');
