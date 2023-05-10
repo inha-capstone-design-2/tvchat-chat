@@ -7,15 +7,15 @@
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build": "tsc",
-    "start_local": "npm run build && cross-env NODE_ENV=local node dist/src/server.js",
-    "start_dev": "npm run build && cross-env NODE_ENV=development node dist/src/server.js"
+    "start_local": "npm run build && cross-env NODE_ENV=local node dist/server.js",
+    "start_dev": "npm run build && cross-env NODE_ENV=development node dist/server.js"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "@types/express": "^4.17.17",
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@types/cookie-parser": "^1.4.3",
-    "@types/express": "^4.17.17",
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
