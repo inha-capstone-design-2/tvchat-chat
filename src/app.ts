@@ -3,12 +3,14 @@ import cookieParser from 'cookie-parser';
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import WinstonLogger from './utils/logger';
+import Redis from './utils/redis';
 
 dotenv.config();
 
 const app = express();
 
-// 로깅용 initialize
+const redis = Redis.getInstance();
+
 const logger = WinstonLogger.getInstance();
 
 app.set('port', 4000);
@@ -24,6 +26,10 @@ app.use(cookieParser());
         dbName: process.env.DATABASE_NAME,
     })
     logger.info(`DB Connected`);
+})();
+
+(async () => {
+    await redis.connect();
 })();
 
 app.use((req, res, next) => {
