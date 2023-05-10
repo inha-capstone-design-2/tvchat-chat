@@ -18,7 +18,7 @@ app.use(cookieParser());
         user: process.env.DATABASE_USER,
         pass: process.env.DATABASE_PASSWORD,
         dbName: process.env.DATABASE_NAME,
-    });
+    })
     console.log("mongoDB connected!")
 })();
 
