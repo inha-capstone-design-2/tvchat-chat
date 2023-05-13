@@ -40,7 +40,7 @@ export default (server: http.Server, app: Application) => {
 
         socket.on('joinRoom', (roomId :number, userId : number) => {
 
-            const roomName = `${namespace.name}-${roomId}`;
+            const roomName = `room${roomId}`;
 
             socket.join(roomName);
 
@@ -50,18 +50,21 @@ export default (server: http.Server, app: Application) => {
 
             onlineMap[roomName][socket.id] = userId;
 
-            logger.info(`${userId} 번 유저 ${roomId}번 채팅방 입장`);
+            logger.info(`${userId} 번 유저 ${roomName} 채팅방 입장`);
             // TODO:redis에 저장
         });
 
         socket.on('leaveRoom', (roomId, userId) => {
-            const roomName = `${namespace.name}-${roomId}`;
+            const roomName = `room${roomId}`;
 
             socket.leave(roomName);
 
-            delete onlineMap[roomName][socket.id];
+            if (onlineMap[roomName]) {
+                delete onlineMap[roomName][socket.id];
+            }
 
-            logger.info(`${userId} 번 유저 ${roomId}번 채팅방 나감`);
+            logger.info(`${userId} 번 유저 ${roomName} 채팅방 나감`);
+
             // TODO:redis에서 삭제
         })
 

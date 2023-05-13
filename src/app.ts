@@ -1,9 +1,10 @@
-import express from 'express';
+import express, {ErrorRequestHandler} from 'express';
 import cookieParser from 'cookie-parser';
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import WinstonLogger from './utils/logger';
 import Redis from './utils/redis';
+import chatRouter from './lib/controllers/chatController';
 
 dotenv.config();
 
@@ -47,5 +48,18 @@ app.use((req, res, next) => {
 app.get('/', (req, res, next) => {
     res.json('Server working');
 });
+
+app.use('/v1/chat', chatRouter);
+
+app.use((req, res) => {
+    res.status(404).send({ message: 'page not found' });
+});
+
+app.use(((err, req, res, next) => {
+    res.status(err.status ?? 500).json({
+        message: err.message,
+        error: err,
+    });
+}) as ErrorRequestHandler);
 
 export default app;
