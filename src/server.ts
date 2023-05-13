@@ -1,11 +1,14 @@
+import { createServer } from 'http';
 import app from './app';
 import WinstonLogger from "./utils/logger";
+import useSocket from "./utils/useSocket";
 
-// 로깅용 initialize
+const httpServer = createServer(app);
+
 const logger = WinstonLogger.getInstance();
 
-const server = app.listen(app.get('port'), () => {
+useSocket(httpServer, app);
+
+httpServer.listen(app.get('port'), () => {
     logger.info(`Server listening on port: ${app.get('port')}`);
 });
-
-export default server;

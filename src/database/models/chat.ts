@@ -1,16 +1,25 @@
 import { Model, model, Schema } from 'mongoose';
 
 interface ChatDAO {
-    senderId: number;
+    nickname: string;
+    userId: number;
     roomId: number;
+    text: string;
+    image: boolean;
+    imageUri?: string;
+    createdAt: Date;
 }
 
 type ChatDAOModel = Model<ChatDAO>;
 
 const chatSchema = new Schema<ChatDAO, ChatDAOModel>(
     {
-        senderId: { type: Number, required: true },
+        nickname: { type: String, required: true },
+        userId: { type: Number, required: true },
         roomId: { type: Number, required: true },
+        text: { type: String, required: true },
+        image: { type: Boolean, required: true },
+        imageUri: { type: String },
     },
     {
         timestamps: true,
