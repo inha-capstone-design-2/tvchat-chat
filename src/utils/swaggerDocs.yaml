@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: tv-talk api docs
+  description: tv-talk backend api 문서
+  contact:
+    email: gkqkehs0321@gmail.com
+tags:
+  - name: BroadcastController
+    description: 방송 프로그램 관련 api
+paths:
+  /v1/broadcast:
+    get:
+      tags:
+        - BroadcastController
+      summary: 주요 방송사 프로그램 정보 받아오기
+      description: 주요 방송사의 프로그램들의 오늘 방송 시간표 받아오기
+      responses:
+        '200':
+          description: 크롤링 성공
+
+
+
+
+
+

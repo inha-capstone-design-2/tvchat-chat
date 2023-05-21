@@ -12,7 +12,6 @@ router.get('/', async(req, res, next) => {
         const schedules = await broadcastService.getSchedule();
 
         res.json({ data: schedules });
-
     } catch (error) {
         next(error);
     }

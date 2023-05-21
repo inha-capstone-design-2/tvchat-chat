@@ -2,6 +2,9 @@ import express, {ErrorRequestHandler} from 'express';
 import cookieParser from 'cookie-parser';
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path'
 import WinstonLogger from './utils/logger';
 import Redis from './utils/redis';
 import chatRouter from './lib/controllers/chatController';
@@ -14,6 +17,8 @@ const app = express();
 const redis = Redis.getInstance();
 
 const logger = WinstonLogger.getInstance();
+
+const swaggerSpec = YAML.load(path.join(__dirname, 'swagger.yaml'));
 
 app.set('port', 4000);
 
@@ -49,6 +54,12 @@ app.use((req, res, next) => {
 app.get('/', (req, res, next) => {
     res.json('Server working');
 });
+
+app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, { explorer: true })
+);
 
 app.use('/v1/chat', chatRouter);
 app.use('/v1/broadcast', broadcastRouter);
