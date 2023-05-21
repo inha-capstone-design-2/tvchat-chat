@@ -27,8 +27,14 @@ type ReceiveChatForm = {
     timeline: Date;
 }
 
+type ProgramSchedule =  { program: string, startTime: string }
+
+type BroadcastSchedule = { [key: string]: ProgramSchedule[] };
+
 export type {
     Chat,
     SendChatForm,
-    ReceiveChatForm
+    ReceiveChatForm,
+    ProgramSchedule,
+    BroadcastSchedule
 }

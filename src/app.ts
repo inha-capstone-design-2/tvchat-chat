@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import WinstonLogger from './utils/logger';
 import Redis from './utils/redis';
 import chatRouter from './lib/controllers/chatController';
+import broadcastRouter from './lib/controllers/broadcastController';
 
 dotenv.config();
 
@@ -27,18 +28,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-(async () => {
-    await mongoose.connect(`${process.env.DATABASE_URL}`, {
-        user: process.env.DATABASE_USER,
-        pass: process.env.DATABASE_PASSWORD,
-        dbName: process.env.DATABASE_NAME,
-    })
-    logger.info(`DB Connected`);
-})();
-
-(async () => {
-    await redis.connect();
-})();
+// (async () => {
+//     await mongoose.connect(`${process.env.DATABASE_URL}`, {
+//         user: process.env.DATABASE_USER,
+//         pass: process.env.DATABASE_PASSWORD,
+//         dbName: process.env.DATABASE_NAME,
+//     })
+//     logger.info(`DB Connected`);
+// })();
+//
+// (async () => {
+//     await redis.connect();
+// })();
 
 app.use((req, res, next) => {
     logger.http(`[${req.method}] ${req.url}`);
@@ -50,6 +51,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.use('/v1/chat', chatRouter);
+app.use('/v1/broadcast', broadcastRouter);
 
 app.use((req, res) => {
     res.status(404).send({ message: 'page not found' });
