@@ -1,3 +1,5 @@
+import {IsString} from "class-validator";
+
 type Chat = {
     nickname: string,
     userId: number;
@@ -27,14 +29,30 @@ type ReceiveChatForm = {
     timeline: Date;
 }
 
+type MakeRoomForm = {
+    programId: number;
+    channelName: string;
+    programName: string;
+    episodeName: string;
+}
+
 type ProgramSchedule =  { program: string, startTime: string }
 
 type BroadcastSchedule = { [key: string]: ProgramSchedule[] };
+
+type Room = {
+    programId: number;
+    programName: string;
+    episodeName: string;
+    channelName: string;
+}
 
 export type {
     Chat,
     SendChatForm,
     ReceiveChatForm,
+    MakeRoomForm,
     ProgramSchedule,
-    BroadcastSchedule
+    BroadcastSchedule,
+    Room
 }
