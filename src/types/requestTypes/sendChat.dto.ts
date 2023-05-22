@@ -9,7 +9,7 @@ class SendChatDto {
     userId: number;
 
     @IsNumber()
-    roomId: number;
+    programId: number;
 
     text: string | null;
 
@@ -21,7 +21,7 @@ class SendChatDto {
     constructor(obj: SendChatDto) {
         this.nickname = obj.nickname;
         this.userId = obj.userId;
-        this.roomId = obj.roomId;
+        this.programId = obj.programId;
         this.text = obj.text;
         this.image = obj.image;
         this.imageUri = obj.imageUri;
@@ -31,7 +31,7 @@ class SendChatDto {
         return {
             nickname: this.nickname,
             userId: this.userId,
-            roomId: this.roomId,
+            roomId: this.programId,
             text: this.text,
             image: this.image,
             imageUri: this.imageUri

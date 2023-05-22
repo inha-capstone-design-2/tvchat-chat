@@ -5,7 +5,7 @@ interface RoomDAO {
     channelName: string;
     programName: string;
     episodeName: string;
-
+    deletedAt: Date;
 }
 
 type RoomDAOModel = Model<RoomDAO>;
@@ -16,6 +16,7 @@ const roomSchema = new Schema<RoomDAO, RoomDAOModel>(
         channelName: { type: String, required: true },
         programName: { type: String, required: true },
         episodeName: { type: String, required: true },
+        deletedAt: { type: Date, required: true },
     },
     {
         timestamps: true,

@@ -36,9 +36,9 @@ export default (server: http.Server, app: Application) => {
     app.set('onlineMap', onlineMap);
 
     io.on('connect', async (socket) => {
-        socket.on('joinRoom', (roomId:number, userId : number) => {
+        socket.on('joinRoom', (programId:number, userId : number) => {
 
-            const roomName = `room${roomId}`;
+            const roomName = `room${programId}`;
 
             socket.join(roomName);
 

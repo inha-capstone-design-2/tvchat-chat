@@ -8,6 +8,7 @@ import path from 'path'
 import WinstonLogger from './utils/logger';
 import Redis from './utils/redis';
 import chatRouter from './lib/controllers/chatController';
+import roomRouter from './lib/controllers/roomController';
 import broadcastRouter from './lib/controllers/broadcastController';
 
 dotenv.config();
@@ -62,6 +63,7 @@ app.use(
 );
 
 app.use('/v1/chat', chatRouter);
+app.use('/v1/room', roomRouter);
 app.use('/v1/broadcast', broadcastRouter);
 
 app.use((req, res) => {

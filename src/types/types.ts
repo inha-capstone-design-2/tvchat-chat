@@ -22,7 +22,7 @@ type SendChatForm = {
 type ReceiveChatForm = {
     nickname: string,
     userId: number;
-    roomId: number;
+    programId: number;
     text: string | null;
     image: boolean;
     imageUri: string | null;
@@ -34,6 +34,7 @@ type MakeRoomForm = {
     channelName: string;
     programName: string;
     episodeName: string;
+    endTime: Date;
 }
 
 type ProgramSchedule =  { program: string, startTime: string }

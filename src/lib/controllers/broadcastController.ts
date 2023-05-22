@@ -2,10 +2,7 @@ import express from 'express';
 import BroadcastService from '../services/broadcastService';
 const router = express.Router();
 
-
 const broadcastService = BroadcastService.getInstance();
-
-
 
 router.get('/', async(req, res, next) => {
     try {
