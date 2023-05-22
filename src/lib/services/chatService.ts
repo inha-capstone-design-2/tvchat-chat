@@ -3,6 +3,7 @@ import {MakeRoomForm, ReceiveChatForm, Room, SendChatForm} from "../../types/typ
 import {ChatModel} from "../../database/models/chat";
 import WinstonLogger from "../../utils/logger";
 import Redis from "../../utils/redis";
+import {RoomModel} from "../../database/models/rooms";
 
 const redisClient = Redis.getInstance().getClient();
 const logger = WinstonLogger.getInstance();
@@ -64,22 +65,22 @@ class ChatService {
 
         const { programId, programName, episodeName, channelName } = makeRoomForm;
 
-        const onlineMap = app.get('onlineMap');
+        const isRoom = await RoomModel.findOne({ programId });
 
-        const roomName = `room${programId}`;
+        if(isRoom) {
+            throw new Error("이미 존재하는 채팅방 입니다!")
+        }
 
-        const isRoom = await redisClient.hGetAll(`${roomName}`);
-
-        //
-        // if(isRoom) {
-        //     throw new Error("해당 프로그램에 대한 채팅방이 이미 존재합니다")
-        // }
-
-        await redisClient.hSet(roomName, {
+        await new RoomModel({
+            programId,
             programName,
             episodeName,
             channelName,
-        });
+        }).save();
+
+        const roomName = `room${programId}`;
+
+        const onlineMap = app.get('onlineMap');
 
         onlineMap[roomName] = {};
 
@@ -90,18 +91,7 @@ class ChatService {
 
         const onlineMap = app.get('onlineMap');
 
-        const roomNames = Object.keys(onlineMap);
-
-        const rooms : Room[] = [];
-        roomNames.map(async (roomName: string) => {
-            const { programName, episodeName, channelName } = await redisClient.hGetAll(`${roomName}`);
-
-            const programId = parseInt(roomName.match(/\d+/)![0]);
-
-            const room : Room = { programId, programName, episodeName, channelName };
-
-            rooms.push(room);
-        })
+        const rooms = await RoomModel.find();
 
         return rooms;
     }

@@ -16,7 +16,7 @@ router.post('/', async(req, res, next) => {
 
         await chatService.sendChat(sendChatDto.toServiceModel());
 
-        res.send({ data: true });
+        res.send({ success: true });
     } catch (error) {
         next(error);
     }
@@ -52,7 +52,7 @@ router.post('/room', async(req, res, next) => {
 
         await chatService.makeRoom(makeRoomDto.toServiceModel());
 
-        res.send({ data: true });
+        res.send({ success: true });
     } catch (error) {
         next(error);
     }

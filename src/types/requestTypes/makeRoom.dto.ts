@@ -27,8 +27,6 @@ class MakeRoomDto {
             channelName: this.channelName,
             programName: this.programName,
             episodeName: this.episodeName,
-
-
         };
     }
 }
