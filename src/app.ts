@@ -53,7 +53,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res, next) => {
-    res.json('Server working');
+    res.json("server working");
 });
 
 app.use(

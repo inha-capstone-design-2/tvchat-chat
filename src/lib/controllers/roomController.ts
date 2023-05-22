@@ -1,6 +1,5 @@
 import express from 'express';
 import RoomService from '../services/roomService';
-import SendChatDto from "../../types/requestTypes/sendChat.dto";
 import {validateOrReject} from "class-validator";
 import MakeRoomDto from "../../types/requestTypes/makeRoom.dto";
 

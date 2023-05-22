@@ -26,15 +26,15 @@ class ChatService {
      * @param sendChatForm
      */
     async sendChat(sendChatForm: SendChatForm): Promise<boolean> {
-        const { nickname, userId, roomId, text, image, imageUri } = sendChatForm;
+        const { nickname, userId, programId, text, image, imageUri } = sendChatForm;
 
         const io = app.get('io');
-        io.of('/').to(`room${roomId}`).emit('message',sendChatForm);
+        io.of('/').to(`room${programId}`).emit('message',sendChatForm);
 
         await new ChatModel({
             nickname,
             userId,
-            roomId,
+            programId,
             text,
             image,
             imageUri

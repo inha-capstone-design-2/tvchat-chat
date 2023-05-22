@@ -31,7 +31,7 @@ class SendChatDto {
         return {
             nickname: this.nickname,
             userId: this.userId,
-            roomId: this.programId,
+            programId: this.programId,
             text: this.text,
             image: this.image,
             imageUri: this.imageUri
