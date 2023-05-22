@@ -13,7 +13,7 @@ type Chat = {
 type SendChatForm = {
     nickname: string,
     userId: number;
-    roomId: number;
+    programId: number;
     text: string | null;
     image: boolean;
     imageUri: string | null;

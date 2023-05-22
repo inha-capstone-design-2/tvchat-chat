@@ -35,13 +35,30 @@ paths:
       tags:
         - RoomController
       summary: 채팅방 만들기
-      description: 방송 시간표 기준으로 채팅방을 열어주기
+      description: 방송 시간표 기준으로 채팅방을 열어주기 보낸 endTime에 자동으로 채팅방은 삭제처리
       requestBody:
         description: MakeRoomDto
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/MakeRoomDto"
+      responses:
+        '200':
+          description: 성공
+  /v1/chat/{programId}:
+    get:
+      tags:
+        - ChatController
+      summary: 채팅 가져오기
+      description: 해당 프로그램의 채팅 리스트를 모두 가져옴
+      parameters:
+        - name: programId
+          in: path
+          description: 해당 프로그램 Id
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: 성공
@@ -57,23 +74,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SendChatDto"
-      responses:
-        '200':
-          description: 성공
-  /v1/chat/{programId}:
-    post:
-      tags:
-        - ChatController
-      summary: 채팅 가져오기
-      description: 해당 프로그램의 채팅 리스트를 모두 가져옴
-      parameters:
-        - name: programId
-          in: path
-          description: 해당 프로그램 Id
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: 성공
