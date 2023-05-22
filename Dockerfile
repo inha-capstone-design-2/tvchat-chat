@@ -8,6 +8,8 @@ RUN npm install
 
 RUN npm run build
 
+RUN npm run api-docs
+
 ARG DATABASE_URL
 ARG DATABASE_NAME
 ARG REDIS_URL
