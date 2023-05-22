@@ -37,8 +37,19 @@ class BroadcastService {
 
                         const programName = $(item).find('div.ind_program.col2.today a');
 
+                        const programTime = time.text();
+
+                        const onlyTime = parseInt(programTime.replace(/[^0-9]/g, ""));
+
+                        const programDateTime = new Date();
+
+                        programDateTime.setHours(onlyTime + 9);
+                        programDateTime.setMinutes(0);
+                        programDateTime.setSeconds(0);
+                        programDateTime.setMilliseconds(0);
+
                         if(time.text() !== "" && programName.text() !== "") {
-                            programSchedule.push({ program: programName.text(), startTime: time.text()});
+                            programSchedule.push({ program: programName.text(), startTime: programDateTime });
                         }
 
                     })
