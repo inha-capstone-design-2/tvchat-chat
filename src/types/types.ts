@@ -37,7 +37,7 @@ type MakeRoomForm = {
     endTime: Date;
 }
 
-type ProgramSchedule =  { program: string, startTime: string }
+type ProgramSchedule =  { program: string, startTime: Date }
 
 type BroadcastSchedule = { [key: string]: ProgramSchedule[] };
 
