@@ -9,7 +9,8 @@
     "build": "tsc",
     "api-docs": "swagger-cli bundle src/utils/swaggerDocs.yaml --outfile dist/swagger.yaml --type yaml",
     "start_local": "npm run build && npm run api-docs && cross-env NODE_ENV=local node dist/server.js",
-    "start_dev": "npm run build && npm run api-docs && cross-env NODE_ENV=development node dist/server.js"
+    "start_dev": "npm run build && npm run api-docs && cross-env NODE_ENV=development node dist/server.js",
+    "start_prod": "npm run build && npm run api-docs && cross-env node dist/server.js"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",

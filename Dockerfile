@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm install
 
-RUN npm run build
+RUN npm run start_prod
 
 ARG DATABASE_URL
 ARG DATABASE_NAME
