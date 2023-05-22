@@ -3,7 +3,7 @@ import { Model, model, Schema } from 'mongoose';
 interface ChatDAO {
     nickname: string;
     userId: number;
-    roomId: number;
+    programId: number;
     text: string;
     image: boolean;
     imageUri?: string;
@@ -16,7 +16,7 @@ const chatSchema = new Schema<ChatDAO, ChatDAOModel>(
     {
         nickname: { type: String, required: true },
         userId: { type: Number, required: true },
-        roomId: { type: Number, required: true },
+        programId: { type: Number, required: true },
         text: { type: String, required: true },
         image: { type: Boolean, required: true },
         imageUri: { type: String },

@@ -36,21 +36,20 @@ export default (server: http.Server, app: Application) => {
     app.set('onlineMap', onlineMap);
 
     io.on('connect', async (socket) => {
-        const namespace = socket.nsp;
+        socket.on('joinRoom', (programId:number, userId : number) => {
 
-        socket.on('joinRoom', (roomId :number, userId : number) => {
-
-            const roomName = `room${roomId}`;
+            const roomName = `room${programId}`;
 
             socket.join(roomName);
 
             if (!onlineMap[roomName]) {
-                onlineMap[roomName] = {};
+                throw new Error("존재하지 않는 채팅방 입니다")
             }
 
             onlineMap[roomName][socket.id] = userId;
 
             logger.info(`${userId} 번 유저 ${roomName} 채팅방 입장`);
+
             // TODO:redis에 저장
         });
 
@@ -73,7 +72,5 @@ export default (server: http.Server, app: Application) => {
 
         });
     });
-
-    // workspace.on('disconnect');
 };
 

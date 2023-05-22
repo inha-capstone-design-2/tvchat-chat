@@ -3,7 +3,6 @@ import ChatService from '../services/chatService';
 import SendChatDto from "../../types/requestTypes/sendChat.dto";
 import {validateOrReject} from "class-validator";
 
-
 const router = express.Router();
 const chatService = ChatService.getInstance();
 
@@ -15,20 +14,20 @@ router.post('/', async(req, res, next) => {
 
         await chatService.sendChat(sendChatDto.toServiceModel());
 
-        res.send({ data: true });
+        res.send({ success: true });
     } catch (error) {
         next(error);
     }
 })
 
-
-router.get('/:roomId', async(req, res, next) => {
+router.get('/:programId', async(req, res, next) => {
     try {
-        const chats = await chatService.getChat(req.params.roomId);
+        const chats = await chatService.getChat(req.params.programId);
 
         res.send({ data: chats });
     } catch (error) {
         next(error);
     }
 })
+
 export default router;

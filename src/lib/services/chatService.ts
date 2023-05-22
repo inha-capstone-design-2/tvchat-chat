@@ -1,6 +1,14 @@
 import app from "../../app";
-import { ReceiveChatForm, SendChatForm} from "../../types/types";
+import {MakeRoomForm, ReceiveChatForm, Room, SendChatForm} from "../../types/types";
+import WinstonLogger from "../../utils/logger";
+import Redis from "../../utils/redis";
+
 import {ChatModel} from "../../database/models/chat";
+import {RoomModel} from "../../database/models/rooms";
+
+import ModelConverter from "../../utils/modelConverter";
+const redisClient = Redis.getInstance().getClient();
+const logger = WinstonLogger.getInstance();
 
 class ChatService {
     private static instance: ChatService;
@@ -36,15 +44,15 @@ class ChatService {
     }
 
     /**
-     * @param roomId
+     * @param programId
      */
-    async getChat(roomId: string): Promise<ReceiveChatForm[]> {
-       const chats = await ChatModel.find({roomId});
+    async getChat(programId: string): Promise<ReceiveChatForm[]> {
+       const chats = await ChatModel.find({programId});
 
        return chats.map((chat) => ({
            nickname: chat.nickname,
            userId: chat.userId,
-           roomId: chat.roomId,
+           programId: chat.programId,
            text: chat.text ? chat.text : null,
            image: chat.image,
            imageUri: chat.imageUri ? chat.imageUri : null,
