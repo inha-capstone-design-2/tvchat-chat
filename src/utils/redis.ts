@@ -12,7 +12,6 @@ class Redis {
     private readonly client: RedisClientType;
 
     constructor() {
-        console.log(process.env.REDIS_URL);
         this.client = createClient({
             url: process.env.REDIS_URL,
         });
