@@ -43,9 +43,9 @@ app.use(cookieParser());
     logger.info(`DB Connected`);
 })();
 
-(async () => {
-    await redis.connect();
-})();
+// (async () => {
+//     await redis.connect();
+// })();
 
 app.use((req, res, next) => {
     logger.http(`[${req.method}] ${req.url}`);
