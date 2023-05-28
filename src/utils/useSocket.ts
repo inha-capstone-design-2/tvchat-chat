@@ -53,8 +53,6 @@ export default (server: http.Server, app: Application) => {
             onlineMap[roomName][socket.id] = userId;
 
             logger.info(`${userId} 번 유저 ${roomName} 채팅방 입장`);
-
-            // TODO:redis에 저장
         });
 
         socket.on('leaveRoom', (roomId, userId) => {
@@ -67,8 +65,18 @@ export default (server: http.Server, app: Application) => {
             }
 
             logger.info(`${userId} 번 유저 ${roomName} 채팅방 나감`);
+        })
 
-            // TODO:redis에서 삭제
+        socket.on('dropOut', (roomId, userId) => {
+            const roomName = `room${roomId}`;
+
+            socket.leave(roomName);
+
+            if (onlineMap[roomName]) {
+                delete onlineMap[roomName][socket.id];
+            }
+
+            logger.info(`${userId} 번 유저 ${roomName} 강퇴`);
         })
 
 
