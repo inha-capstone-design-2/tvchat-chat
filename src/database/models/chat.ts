@@ -4,7 +4,7 @@ interface ChatDAO {
     nickname: string;
     userId: number;
     programId: number;
-    text: string;
+    text?: string;
     image: boolean;
     imageUri?: string;
     createdAt: Date;
@@ -17,7 +17,7 @@ const chatSchema = new Schema<ChatDAO, ChatDAOModel>(
         nickname: { type: String, required: true },
         userId: { type: Number, required: true },
         programId: { type: Number, required: true },
-        text: { type: String, required: true },
+        text: { type: String },
         image: { type: Boolean, required: true },
         imageUri: { type: String },
     },

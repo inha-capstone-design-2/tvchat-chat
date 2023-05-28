@@ -46,6 +46,7 @@ type Room = {
     programName: string;
     episodeName: string;
     channelName: string;
+    viewers: number;
 }
 
 export type {
