@@ -3,6 +3,7 @@ import Redis from './redis';
 import WinstonLogger from './logger';
 import http from "http";
 import { Application } from "express";
+import {RoomModel} from "../database/models/rooms";
 
 const redisClient = Redis.getInstance().getClient();
 
@@ -15,16 +16,19 @@ interface OnlineMap {
 const onlineMap: OnlineMap = {};
 
 export default (server: http.Server, app: Application) => {
-    // if (Object.keys(onlineMap).length === 0) {
-    //     //서버가 재시작해서 이게 비어있을 경우
-    //     redisClient.get('users', async (err, data) => {
-    //         console.log('redisNo:', data);
-    //     });
-    // } else {
-    //     redisClient.get('users', async (err, data) => {
-    //         console.log('redisYes:', data);
-    //     });
-    // }
+    if (Object.keys(onlineMap).length === 0) {
+        (async () => {
+            const currentDateTime = new Date();
+            const modifiedDateTime = new Date(currentDateTime.getTime() + (9 * 60 * 60 * 1000));
+
+            const rooms = await RoomModel.find({ deletedAt : { $gt: modifiedDateTime }});
+
+            rooms.map((room) => {
+                const roomName = `room${room.programId}`;
+                onlineMap[roomName] = {};
+            })
+        })();
+    }
 
     const io = new Server(server, {
         cors: {
