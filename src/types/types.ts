@@ -37,9 +37,9 @@ type MakeRoomForm = {
     endTime: Date;
 }
 
-type ProgramSchedule =  { program: string, startTime: Date }
+type ProgramSchedules =  { program:string, broadcastor:string, startTime: Date, endTime: Date }[]
 
-type BroadcastSchedule = { [key: string]: ProgramSchedule[] };
+type ProgramSchedule =  { program:string, broadcastor:string, startTime: Date, endTime: Date }
 
 type Room = {
     programId: number;
@@ -55,6 +55,6 @@ export type {
     ReceiveChatForm,
     MakeRoomForm,
     ProgramSchedule,
-    BroadcastSchedule,
+    ProgramSchedules,
     Room
 }
