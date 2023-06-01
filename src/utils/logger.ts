@@ -50,7 +50,7 @@ class WinstonLogger {
 
         let transport;
         let exceptionHandler;
-        if (process.env.NODE_ENV === 'local') {
+        if (process.env.NODE_ENV === 'production') {
             transport = [infoLog, errorLog, httpLog];
             exceptionHandler = exceptionLog;
         } else if (process.env.NODE_ENV === 'development') {
