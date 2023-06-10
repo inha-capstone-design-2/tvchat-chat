@@ -34,6 +34,7 @@ type MakeRoomForm = {
     channelName: string;
     programName: string;
     episodeName: string;
+    startTime: Date;
     endTime: Date;
 }
 

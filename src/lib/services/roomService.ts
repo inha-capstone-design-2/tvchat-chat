@@ -25,9 +25,9 @@ class RoomService {
     /**
      * @param makeRoomForm
      */
-    async makeRoom(makeRoomForm: MakeRoomForm): Promise<void> {
+    static async makeRoom(makeRoomForm: MakeRoomForm): Promise<void> {
 
-        const { programId, programName, episodeName, channelName, endTime } = makeRoomForm;
+        const { programId, programName, episodeName, channelName, startTime, endTime } = makeRoomForm;
 
         const isRoom = await RoomModel.findOne({ programId, deletedAt : { $gt: new Date() } });
 
@@ -39,35 +39,50 @@ class RoomService {
 
         const onlineMap = app.get('onlineMap');
 
-        onlineMap[roomName] = {};
+        const startDateTime = new Date(startTime);
 
-        const originalDateTime = new Date(endTime);
+        const startMinute = startDateTime.getUTCMinutes();
+        const startHour = startDateTime.getUTCHours();
+        const startDay = startDateTime.getUTCDate();
+        const startMonth = startDateTime.getUTCMonth() + 1;
 
-        const cronMinute = originalDateTime.getUTCMinutes();
-        const cronHour = originalDateTime.getUTCHours();
-        const cronDay = originalDateTime.getUTCDate();
-        const cronMonth = originalDateTime.getUTCMonth() + 1;
+        const startCron = `${startMinute} ${startHour} ${startDay} ${startMonth} *`;
 
-        const cronExpression = `${cronMinute} ${cronHour} ${cronDay} ${cronMonth} *`;
-
-        cron.schedule(cronExpression, () => {
+        cron.schedule(startCron, async () => {
             try {
-                delete onlineMap[roomName];
-                logger.info(`${roomName} 채팅방 삭제`);
+                await new RoomModel({
+                    programId,
+                    programName,
+                    episodeName,
+                    channelName,
+                    deletedAt: endTime
+                }).save();
+                onlineMap[roomName] = {};
+                logger.info(`${roomName} 채팅방 생성`);
             } catch (error) {
                 console.error(error);
             }
         });
 
-        await new RoomModel({
-            programId,
-            programName,
-            episodeName,
-            channelName,
-            deletedAt: endTime
-        }).save();
+        const endDateTime = new Date(endTime);
 
-        logger.info(`${roomName} 채팅방 생성`);
+        const endMinute = endDateTime.getUTCMinutes();
+        const endHour = endDateTime.getUTCHours();
+        const endDay = endDateTime.getUTCDate();
+        const endMonth = endDateTime.getUTCMonth() + 1;
+
+        const endCron = `${endMinute} ${endHour} ${endDay} ${endMonth} *`;
+
+        cron.schedule(endCron, () => {
+            try {
+                if(onlineMap[roomName]) {
+                    delete onlineMap[roomName];
+                    logger.info(`${roomName} 채팅방 삭제`);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        });
     }
 
     async getRooms(): Promise<Room[]> {

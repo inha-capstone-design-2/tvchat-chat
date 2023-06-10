@@ -15,6 +15,9 @@ class MakeRoomDto {
     episodeName: string;
 
     @IsDateString()
+    startTime: Date;
+
+    @IsDateString()
     endTime: Date;
 
     constructor(obj: MakeRoomDto) {
@@ -22,6 +25,7 @@ class MakeRoomDto {
         this.channelName = obj.channelName;
         this.programName = obj.programName;
         this.episodeName = obj.episodeName;
+        this.startTime = obj.startTime;
         this.endTime = obj.endTime;
     }
 
@@ -31,6 +35,7 @@ class MakeRoomDto {
             channelName: this.channelName,
             programName: this.programName,
             episodeName: this.episodeName,
+            startTime: this.startTime,
             endTime: this.endTime
         };
     }
