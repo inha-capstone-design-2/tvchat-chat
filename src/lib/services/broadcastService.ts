@@ -2,11 +2,17 @@ import {CrollingUrl} from "../../utils/crollingUrl";
 import axios from "axios";
 import cheerio from "cheerio";
 import {ProgramSchedules, ProgramSchedule} from "../../types/types";
+import RoomService from "./roomService";
+import roomService from "./roomService";
 
 class BroadcastService {
     private static instance: BroadcastService;
 
-    private constructor() {}
+    roomService: RoomService;
+
+    private constructor() {
+        this.roomService = RoomService.getInstance();
+    }
 
     public static getInstance(): BroadcastService {
         if (!BroadcastService.instance) {
@@ -14,7 +20,6 @@ class BroadcastService {
         }
         return BroadcastService.instance;
     }
-
 
     async getSchedule(): Promise<ProgramSchedules> {
 
@@ -100,6 +105,20 @@ class BroadcastService {
                 results[i].endTime = tomorrow;
             }
         }
+
+        let count = 1;
+        results.map(async (result) => {
+            const { program , broadcastor, startTime, endTime } = result;
+            await roomService.makeRoom({
+                programId: count,
+                programName: program,
+                episodeName: "any",
+                channelName: broadcastor,
+                startTime,
+                endTime
+            });
+            count++;
+        })
 
         return results;
     }

@@ -18,11 +18,11 @@ router.get('/', async(req, res, next) => {
 
 router.post('/', async(req, res, next) => {
     try {
-        const makeRoomDto = new MakeRoomDto(req.body);
-
-        await validateOrReject(makeRoomDto);
-
-        await roomService.makeRoom(makeRoomDto.toServiceModel());
+        // const makeRoomDto = new MakeRoomDto(req.body);
+        //
+        // await validateOrReject(makeRoomDto);
+        //
+        // await roomService.makeRoom(makeRoomDto.toServiceModel());
 
         res.send({ success: true });
     } catch (error) {
