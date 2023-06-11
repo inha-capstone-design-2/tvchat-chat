@@ -1,9 +1,10 @@
 import {CrollingUrl} from "../../utils/crollingUrl";
 import axios from "axios";
 import cheerio from "cheerio";
-import {ProgramSchedules, ProgramSchedule} from "../../types/types";
+import {ProgramSchedule, ProgramSchedules} from "../../types/types";
 import RoomService from "./roomService";
 import roomService from "./roomService";
+import {ProgramModel} from "../../database/models/program";
 
 class BroadcastService {
     private static instance: BroadcastService;
@@ -20,6 +21,15 @@ class BroadcastService {
         }
         return BroadcastService.instance;
     }
+
+    async getSchedules(): Promise<ProgramSchedules> {
+        const todayDate = new Date();
+
+        todayDate.setHours(0, 0, 0, 0);
+
+        return ProgramModel.find({createdAt: {$gt: todayDate}});
+    }
+
 
     async getSchedule(): Promise<ProgramSchedules> {
 
@@ -109,6 +119,8 @@ class BroadcastService {
         let count = 1;
         results.map(async (result) => {
             const { program , broadcastor, startTime, endTime } = result;
+
+            // 채팅방 생성
             await roomService.makeRoom({
                 programId: count,
                 programName: program,
@@ -117,6 +129,9 @@ class BroadcastService {
                 startTime,
                 endTime
             });
+
+            // programDB에 저장
+            await new ProgramModel({ program, broadcastor, startTime, endTime, deletedAt: new Date() }).save();
             count++;
         })
 
