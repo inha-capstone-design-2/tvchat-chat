@@ -15,10 +15,10 @@ useSocket(httpServer, app);
 httpServer.listen(app.get('port'), () => {
 
     cron.schedule('0 0 * * *', async () => {
-        try{
+        try {
             await broadcastService.getSchedule();
             logger.info("scheduler progress");
-        }catch (error) {
+        } catch (error) {
             console.log(error);
         }
     })
