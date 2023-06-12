@@ -74,7 +74,7 @@ class BroadcastService {
 
                                 const programTime = new Date();
 
-                                programTime.setHours(programHour + 9);
+                                programTime.setHours(programHour);
                                 programTime.setMinutes(parseInt(minute));
                                 programTime.setSeconds(0);
                                 programTime.setMilliseconds(0);
@@ -111,7 +111,7 @@ class BroadcastService {
                 const tomorrow = new Date(today);
                 tomorrow.setDate(today.getDate() + 1);
                 tomorrow.setHours(0, 0, 0, 0);
-                tomorrow.setHours(tomorrow.getHours() + 9);
+                tomorrow.setHours(tomorrow.getHours());
                 results[i].endTime = tomorrow;
             }
         }
@@ -130,9 +130,12 @@ class BroadcastService {
                 endTime
             });
 
+            await(() => {
+                count++;
+            })
+
             // programDB에 저장
             await new ProgramModel({ program, broadcastor, startTime, endTime, deletedAt: new Date() }).save();
-            count++;
         })
 
         return results;

@@ -13,15 +13,5 @@ const logger = WinstonLogger.getInstance();
 useSocket(httpServer, app);
 
 httpServer.listen(app.get('port'), () => {
-
-    cron.schedule('0 0 * * *', async () => {
-        try {
-            await broadcastService.getSchedule();
-            logger.info("scheduler progress");
-        } catch (error) {
-            console.log(error);
-        }
-    })
-
     logger.info(`Server listening on port: ${app.get('port')}`);
 });
